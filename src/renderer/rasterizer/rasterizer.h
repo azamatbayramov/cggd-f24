@@ -107,7 +107,7 @@ namespace cg::renderer
 	{
 		size_t vertex_id = vertex_offset;
 
-		while (vertex_id < vertex_offset + num_vertexes){
+		while (vertex_id < vertex_offset + num_vertexes) {
 			std::vector<VB> vertices(3);
 
 			vertices[0] = vertex_buffer->item(index_buffer->item(vertex_id++));
@@ -142,14 +142,14 @@ namespace cg::renderer
 			float2 max_vertex = max(vertex_a, max(vertex_b, vertex_c));
 			float2 bb_end = clamp(max_vertex, min_border, max_border);
 
-			for(float x = bb_begin.x; x <= bb_end.x; x += 1.0f){
-				for(float y = bb_begin.y; y <= bb_end.y; y += 1.0f){
+			for (float x = bb_begin.x; x <= bb_end.x; x += 1.0f) {
+				for (float y = bb_begin.y; y <= bb_end.y; y += 1.0f) {
 					float2 point{x,y};
-					float edge0 = edge_function(vertex_a,vertex_b,point);
-					float edge1 = edge_function(vertex_b,vertex_c,point);
-					float edge2 = edge_function(vertex_c,vertex_a,point);
+					float edge0 = edge_function(vertex_a, vertex_b, point);
+					float edge1 = edge_function(vertex_b, vertex_c, point);
+					float edge2 = edge_function(vertex_c, vertex_a, point);
 
-					if (edge0 >= 0.0f && edge1 >= 0.0f && edge2 >= 0.0f){
+					if (edge0 >= 0.0f && edge1 >= 0.0f && edge2 >= 0.0f) {
 						float u = edge1 / edge;
 						float v = edge2 / edge;
 						float w = edge0 / edge;
@@ -160,7 +160,7 @@ namespace cg::renderer
 						{
 							auto pixel = pixel_shader(vertices[0], depth);
 							render_target->item(static_cast<size_t>(x), static_cast<size_t>(y)) = RT::from_color(pixel);
-							
+
 							if (depth_buffer)
 							{
 								depth_buffer->item(static_cast<size_t>(x), static_cast<size_t>(y)) = depth;
