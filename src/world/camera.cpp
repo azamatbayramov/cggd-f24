@@ -84,22 +84,26 @@ const float4x4 cg::world::camera::get_view_matrix() const
 #ifdef DX12
 const DirectX::XMMATRIX cg::world::camera::get_dxm_view_matrix() const
 {
-	DirectX::FXMVECTOR eye_position{
+	DirectX::XMFLOAT3 eye_position{
 		position.x,
 		position.y,
 		position.z
 	};
-	DirectX::FXMVECTOR eye_direction{
+	DirectX::XMFLOAT3 eye_direction{
 		get_direction().x,
 		get_direction().y,
 		get_direction().z
 	};
-	DirectX::FXMVECTOR up_direction{
+	DirectX::XMFLOAT3 up_direction{
 		get_up().x,
 		get_up().y,
 		get_up().z
 	};
-	return DirectX::XMMatrixLookToRH(eye_position, eye_direction, up_direction);
+	return DirectX::XMMatrixLookToRH(
+		DirectX::XMLoadFloat3(&eye_position),
+		DirectX::XMLoadFloat3(&eye_direction),
+		DirectX::XMLoadFloat3(&up_direction)
+	);
 }
 
 const DirectX::XMMATRIX cg::world::camera::get_dxm_projection_matrix() const
